@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 export default () => (
-  <View style={{ flex: 1, padding: 10}}>
+  <View style={{ flex: 1, padding: 10 }}>
     <StatusBar backgroundColor='#8b8b8bd7' />
     <View style={{ flex: 4 }} ></View>
     <View style={{ flex: 3, justifyContent: 'flex-start' }}>

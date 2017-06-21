@@ -6,7 +6,9 @@ import {
   ScrollView,
   StyleSheet,
   Button,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -22,12 +24,17 @@ import {
   reset
 } from '../actions/ActionsCadastro';
 
+const userDefault = require('../imgs/user-default.png')
+
 class Formulario extends Component {
+
 
   componentWillUnmount() {
     this.props.reset();
   }
+  pickPhoto() {
 
+  }
   renderButton() {
     if (this.props.loading) {
       return <ActivityIndicator size='large' />;
@@ -58,7 +65,23 @@ class Formulario extends Component {
 
   render() {
     return (
-      <ScrollView style={{ padding: 10, paddingTop: 70 }}>
+      <ScrollView style={{ padding: 10, paddingTop: 40 }}>
+        <View style={{ flex: 1, alignItems: 'center', marginBottom: 5 }}>
+          <TouchableOpacity 
+            style={{ 
+              elevation: 10, 
+              backgroundColor: 'white', 
+              borderWidth: 2, 
+              borderRadius: 5, 
+              borderColor: '#1f4e9b' }}
+          >
+            <Image 
+              style={{ width: 150, height: 150 }} 
+              source={userDefault} 
+              onPress={this.pickPhoto.bind(this)}
+            />
+          </TouchableOpacity>
+        </View>
         <TextInput
           style={styles.textInputStyle}
           value={this.props.nome}

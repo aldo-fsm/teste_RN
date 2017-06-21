@@ -16,13 +16,13 @@ export default () => (
       component={Principal}
       title='Principal'
       hideNavBar
-      initial
     />
     <Scene
       key='telaCadastro'
       component={TelaCadastro}
       title='Cadastre-se'
       hideNavBar={false}
+      initial
     />
     <Scene
       key='telaLista'
