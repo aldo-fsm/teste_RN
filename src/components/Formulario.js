@@ -8,10 +8,11 @@ import {
   Button,
   ActivityIndicator,
   TouchableOpacity,
-  Image
+  Image,
+  Alert
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
-
+import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux';
 
 import {
@@ -23,7 +24,7 @@ import {
   atualizarCadastro,
   reset
 } from '../actions/ActionsCadastro';
-
+ 
 const userDefault = require('../imgs/user-default.png')
 
 class Formulario extends Component {
@@ -33,7 +34,33 @@ class Formulario extends Component {
     this.props.reset();
   }
   pickPhoto() {
-
+    Alert.alert('Foto', '',
+    [
+      {
+        text: 'Galeria', 
+        OnPress: () => {
+          ImagePicker.openPicker({
+            width: 900,
+            height: 900,
+            cropping: true
+          }).then(image => {
+            console.log(image);
+          });
+        }
+      },
+      {
+        text: 'Camera',
+        onPress: () => {
+          ImagePicker.openCamera({
+            width: 900,
+            height: 900,
+            cropping: true
+          }).then(image => {
+            console.log(image);
+          });
+        }
+      }
+    ]);
   }
   renderButton() {
     if (this.props.loading) {
@@ -74,11 +101,11 @@ class Formulario extends Component {
               borderWidth: 2, 
               borderRadius: 5, 
               borderColor: '#1f4e9b' }}
+            onPress={() => this.pickPhoto()}
           >
             <Image 
               style={{ width: 150, height: 150 }} 
               source={userDefault} 
-              onPress={this.pickPhoto.bind(this)}
             />
           </TouchableOpacity>
         </View>
