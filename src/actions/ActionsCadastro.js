@@ -8,6 +8,7 @@ import {
   SET_CELULAR,
   SET_NOME,
   SET_ID,
+  SET_IMAGE,
   ERRO_CADASTRO,
   SUCESSO_CADASTRO,
   CADASTRO_EM_ANDAMENTO,
@@ -33,6 +34,10 @@ export const setCelular = celular => ({
 export const setId = id => ({
   type: SET_ID,
   payload: id
+});
+export const setImage = image => ({
+  type: SET_IMAGE,
+  payload: image
 });
 export const reset = () => ({
   type: RESET,

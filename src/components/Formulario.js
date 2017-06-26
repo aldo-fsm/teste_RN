@@ -20,15 +20,15 @@ import {
   setEmail,
   setCelular,
   setNascimento,
+  setImage,
   cadastrar,
   atualizarCadastro,
   reset
 } from '../actions/ActionsCadastro';
  
-const userDefault = require('../imgs/user-default.png')
+const userDefault = require('../imgs/user-default.png');
 
 class Formulario extends Component {
-
 
   componentWillUnmount() {
     this.props.reset();
@@ -38,12 +38,13 @@ class Formulario extends Component {
     [
       {
         text: 'Galeria', 
-        OnPress: () => {
+        onPress: () => {
           ImagePicker.openPicker({
             width: 900,
             height: 900,
             cropping: true
           }).then(image => {
+            this.props.setImage(image);
             console.log(image);
           });
         }
@@ -56,6 +57,7 @@ class Formulario extends Component {
             height: 900,
             cropping: true
           }).then(image => {
+            this.props.setImage(image);
             console.log(image);
           });
         }
@@ -104,8 +106,13 @@ class Formulario extends Component {
             onPress={() => this.pickPhoto()}
           >
             <Image 
-              style={{ width: 150, height: 150 }} 
-              source={userDefault} 
+              style={{ width: 150, height: 150 }}
+              source={
+                this.props.image ? 
+                { uri: this.props.image.path }
+                : 
+                userDefault 
+              }
             />
           </TouchableOpacity>
         </View>
@@ -170,6 +177,7 @@ const mapStatesToProps = state => ({
   nascimento: state.ReducerCadastro.nascimento,
   celular: state.ReducerCadastro.celular,
   id: state.ReducerCadastro.id,
+  image: state.ReducerCadastro.image,
   errorMessage: state.ReducerCadastro.errorMessage,
   loading: state.ReducerCadastro.loading
 });
@@ -179,6 +187,7 @@ const actions = {
   setCelular,
   setEmail,
   setNascimento,
+  setImage,
   cadastrar,
   atualizarCadastro,
   reset

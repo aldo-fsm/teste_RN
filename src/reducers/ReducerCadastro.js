@@ -4,6 +4,7 @@ import {
   SET_CELULAR,
   SET_NOME,
   SET_ID,
+  SET_IMAGE,
   ERRO_CADASTRO,
   SUCESSO_CADASTRO,
   CADASTRO_EM_ANDAMENTO,
@@ -17,6 +18,7 @@ const INITIAL_STATE = {
   celular: '',
   id: '',
   errorMessage: '',
+  image: undefined,
   loading: false
 };
 
@@ -32,6 +34,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, celular: action.payload };
     case SET_ID:
       return { ...state, id: action.payload };
+    case SET_IMAGE:
+      return { ...state, image: action.payload };
     case SUCESSO_CADASTRO:
       return INITIAL_STATE;
     case ERRO_CADASTRO:
