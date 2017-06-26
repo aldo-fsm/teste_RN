@@ -2,6 +2,7 @@ import { MaskService } from 'react-native-masked-text';
 import { Alert } from 'react-native';
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
+import CryptoJs from 'crypto-js';
 import {
   SET_EMAIL,
   SET_NASCIMENTO,
@@ -14,6 +15,7 @@ import {
   CADASTRO_EM_ANDAMENTO,
   RESET
 } from './types';
+
 
 export const setNome = text => ({
   type: SET_NOME,
@@ -42,7 +44,7 @@ export const setImage = image => ({
 export const reset = () => ({
   type: RESET,
 });
-export const cadastrar = ({ nome, email, nascimento, celular }) => (
+export const cadastrar = ({ nome, email, nascimento, celular, image }) => (
   dispatch => {
     dispatch({
       type: CADASTRO_EM_ANDAMENTO
@@ -57,6 +59,7 @@ export const cadastrar = ({ nome, email, nascimento, celular }) => (
       firebase.database().ref('cadastros')
         .push({ nome, nascimento, celular, email })
         .then(() => {
+          sendCloudinary(image, email); // trocar email por id
           Alert.alert('Cadastro realizado com sucesso !');
           Actions.pop();
           dispatch({
@@ -120,3 +123,29 @@ export const atualizarCadastro = ({ nome, email, nascimento, celular, id }) => (
     }
   }
 );
+
+const sendCloudinary = (image, id) => {
+  const uri = image.path;
+  const publicId = `users_profiles/${id}`;
+  let timestamp = (Date.now() / 1000 | 0).toString();
+  let api_key = '627196582421517';
+  let api_secret = '6aYJhH8DovA5c980fDUKafUIo_A';
+  let cloud = 'dmdleuqma';
+  let hash_string ='public_id=' + publicId + '&' + 'timestamp=' + timestamp + api_secret;
+  let signature = CryptoJs.SHA1(hash_string).toString();
+  let upload_url = 'https://api.cloudinary.com/v1_1/' + cloud + '/image/upload';
+
+  let xhr = new XMLHttpRequest();
+  xhr.open('POST', upload_url);
+  xhr.onload = () => {
+    console.log(xhr);
+  };
+  let formdata = new FormData();
+  formdata.append('file', {uri: uri, type: 'image/jpeg', name: 'profile_picture.jpg'});
+  formdata.append('timestamp', timestamp);
+  formdata.append('api_key', api_key);
+  formdata.append('signature', signature);
+  formdata.append('public_id', publicId);
+  xhr.send(formdata);
+};
+
